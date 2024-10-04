@@ -59,7 +59,7 @@ function ProblemState() {
 			}
 		} catch (error) {
 			console.error(error)
-			const confirm = window.confirm('Error occurred')
+			const confirm = window.confirm('Retry?')
 			if (confirm) {
 				kickOffWork()
 			}
@@ -110,7 +110,7 @@ function Solution1() {
 			}
 		} catch (error) {
 			console.error(error)
-			const confirm = window.confirm('Error occurred')
+			const confirm = window.confirm('Retry?')
 			if (confirm) {
 				kickOffWork()
 			}
@@ -173,7 +173,7 @@ function Solution2() {
 
 	useEffect(() => {
 		if (confirmModal) {
-			const confirm = window.confirm('Error occurred')
+			const confirm = window.confirm('Retry?')
 			if (confirm) {
 				setConfirmModal(false)
 				kickOffWork()
@@ -200,6 +200,7 @@ function Solution2() {
 		</>
 	)
 }
+
 import { create } from 'zustand'
 
 const useStore = create<{ step: number; work: () => void }>((set, get) => ({
@@ -237,7 +238,7 @@ function Solution3() {
 			await work()
 		} catch (error) {
 			console.error(error)
-			const confirm = window.confirm('Error occurred')
+			const confirm = window.confirm('Retry?')
 			if (confirm) {
 				kickOffWork()
 			}
