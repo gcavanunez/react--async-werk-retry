@@ -17,13 +17,14 @@ function App() {
 				}
 				await SomeWork()
 
-				if (i === 2) {
+				if (i % 2 == 0 && i !== 0) {
 					console.log('Current index', i)
 					console.log('Current step', step)
 					throw new Error('Some error')
 				}
 
-				setStep((prev) => prev + 1)
+				// setStep((prev) => prev + 1)
+				setStep(i + 1)
 			}
 		} catch (error) {
 			console.error(error)
