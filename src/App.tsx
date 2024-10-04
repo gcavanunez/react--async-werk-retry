@@ -28,9 +28,15 @@ function InfoComponent({ children }: PropsWithChildren<{}>) {
 		</>
 	)
 }
-async function SomeWork() {
+async function someWork() {
 	return new Promise((resolve) => setTimeout(resolve, 1000))
 }
+
+async function sleep() {
+	return new Promise((resolve) => setTimeout(resolve, 300))
+}
+
+const MAX_STEPS = 10
 
 function ProblemState() {
 	const [step, setStep] = useState(0)
@@ -38,16 +44,18 @@ function ProblemState() {
 	const kickOffWork = async () => {
 		try {
 			console.log('State referece', step)
-			for (let i = 0; i < 5; i++) {
+			for (let i = 0; i < MAX_STEPS; i++) {
 				if (i < step) {
 					console.log('skipping:', i)
+
+					await sleep()
 					continue
 				}
 
-				await SomeWork()
+				await someWork()
 
-				// could error on 0, 2 & 4
-				if (Math.random() < 0.5 && i % 2 == 0) {
+				// could error on any step
+				if (Math.random() < 0.3 && i > 2) {
 					console.log('Current index', i)
 					console.log('Current step', step)
 					throw new Error('Some error')
@@ -90,15 +98,16 @@ function Solution1() {
 
 	const kickOffWork = async () => {
 		try {
-			for (let i = 0; i < 5; i++) {
+			for (let i = 0; i < MAX_STEPS; i++) {
 				if (i < stepRef.current) {
 					console.log('skipping:', i)
+					await sleep()
 					continue
 				}
 
-				await SomeWork()
+				await someWork()
 
-				if (Math.random() < 0.5 && i % 2 == 0) {
+				if (Math.random() < 0.3 && i > 2) {
 					console.log('Current index', i)
 					console.log('Current step', stepRef.current)
 					throw new Error('Some error')
@@ -145,16 +154,17 @@ function Solution2() {
 	const kickOffWork = useCallback(async () => {
 		try {
 			console.log('State referece', step)
-			for (let i = 0; i < 5; i++) {
+			for (let i = 0; i < MAX_STEPS; i++) {
 				if (i < step) {
 					console.log('skipping:', i)
+					await sleep()
 					continue
 				}
 
-				await SomeWork()
+				await someWork()
 
 				// could error on 0, 2 & 4
-				if (Math.random() < 0.5 && i % 2 == 0) {
+				if (Math.random() < 0.3 && i > 2) {
 					console.log('Current index', i)
 					console.log('Current step', step)
 					throw new Error('Some error')
@@ -207,16 +217,17 @@ const useStore = create<{ step: number; work: () => void }>((set, get) => ({
 	step: 0,
 	work: async () => {
 		console.log('State referece', get().step)
-		for (let i = 0; i < 5; i++) {
+		for (let i = 0; i < MAX_STEPS; i++) {
 			if (i < get().step) {
 				console.log('skipping:', i)
+				await sleep()
 				continue
 			}
 
-			await SomeWork()
+			await someWork()
 
 			// could error on 0, 2 & 4
-			if (Math.random() < 0.5 && i % 2 == 0) {
+			if (Math.random() < 0.3 && i > 2) {
 				console.log('Current index', i)
 				console.log('Current step', get().step)
 				throw new Error('Some error')
@@ -265,4 +276,4 @@ function Solution3() {
 }
 
 // ProblemState | Solution1 | Solution2 | Solution3
-export default ProblemState
+export default Solution3
